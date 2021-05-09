@@ -24,18 +24,18 @@ ARG CF_BUILDPACK=v4.12.0
 RUN mkdir -p /opt/mendix/buildpack /opt/mendix/build &&\
     echo "CF Buildpack version ${CF_BUILDPACK}"
  
-#COPY cf-mendix-buildpack.zip /tmp/cf-mendix-buildpack.zip
+COPY cf-mendix-buildpack.zip /tmp/cf-mendix-buildpack.zip
 
-# RUN python3 -m zipfile -e /tmp/cf-mendix-buildpack.zip /opt/mendix/buildpack/ &&\
-#     rm /tmp/cf-mendix-buildpack.zip &&\
-#     chgrp -R 0 /opt/mendix &&\
-#     chmod -R g=u /opt/mendix
-
-RUN mkdir -p /opt/mendix/buildpack /opt/mendix/build &&\
-    echo "CF Buildpack version ${CF_BUILDPACK}" &&\
-    curl -fsSL https://github.com/mendix/cf-mendix-buildpack/archive/${CF_BUILDPACK}.tar.gz | tar xz -C /opt/mendix/buildpack --strip-components 1 &&\
+RUN python3 -m zipfile -e /tmp/cf-mendix-buildpack.zip /opt/mendix/buildpack/ &&\
+    rm /tmp/cf-mendix-buildpack.zip &&\
     chgrp -R 0 /opt/mendix &&\
-    chmod -R g=u  /opt/mendix
+    chmod -R g=u /opt/mendix
+
+# RUN mkdir -p /opt/mendix/buildpack /opt/mendix/build &&\
+#     echo "CF Buildpack version ${CF_BUILDPACK}" &&\
+#     curl -fsSL https://github.com/mendix/cf-mendix-buildpack/archive/${CF_BUILDPACK}.tar.gz | tar xz -C /opt/mendix/buildpack --strip-components 1 &&\
+#     chgrp -R 0 /opt/mendix &&\
+#     chmod -R g=u  /opt/mendix
 
 # Copy python scripts which execute the buildpack (exporting the VCAP variables)
 COPY scripts/compilation scripts/git /opt/mendix/buildpack/
